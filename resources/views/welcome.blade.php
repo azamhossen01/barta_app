@@ -75,12 +75,12 @@
 
                         <!-- User Info -->
                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                            <a href="{{ route('author_profile', Crypt::encrypt($post->username)) }}" class="hover:underline font-semibold line-clamp-1">
-                                {{ $post->name }}
+                            <a href="{{ route('author_profile', Crypt::encrypt($post->user->username)) }}" class="hover:underline font-semibold line-clamp-1">
+                                {{ $post->user->name }}
                             </a>
 
-                            <a href="{{ route('author_profile', Crypt::encrypt($post->username)) }}" class="hover:underline text-sm text-gray-500 line-clamp-1">
-                                {{ $post->username }}
+                            <a href="{{ route('author_profile', Crypt::encrypt($post->user->username)) }}" class="hover:underline text-sm text-gray-500 line-clamp-1">
+                                {{ $post->user->username }}
                             </a>
                         </div>
                         <!-- /User Info -->

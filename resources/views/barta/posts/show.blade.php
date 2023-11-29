@@ -20,13 +20,13 @@
                 <!-- User Info -->
                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                   <a
-                    href="profile.html"
+                    href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                     class="hover:underline font-semibold line-clamp-1">
                     {{ $post->author_name }}
                   </a>
 
                   <a
-                    href="profile.html"
+                    href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                     class="hover:underline text-sm text-gray-500 line-clamp-1">
                     {{ $post->author_username }}
                   </a>
@@ -178,13 +178,13 @@
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline font-semibold line-clamp-1">
                         {{ $comment->name }}
                       </a>
 
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                         {{ $comment->username }}
                       </a>
@@ -216,13 +216,13 @@
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline font-semibold line-clamp-1">
                         Al Nahian
                       </a>
 
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                         @alnahian2003
                       </a>
@@ -253,13 +253,13 @@
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline font-semibold line-clamp-1">
                         Bruce Wayne
                       </a>
 
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                         @wayne
                       </a>
@@ -290,13 +290,13 @@
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline font-semibold line-clamp-1">
                         Ahmed Shamim Hasan Shaon
                       </a>
 
                       <a
-                        href="profile.html"
+                        href="{{ route('author_profile', Crypt::encrypt($post->author_username)) }}"
                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                         @me_shaon
                       </a>
