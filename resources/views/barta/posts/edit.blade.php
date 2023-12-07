@@ -32,6 +32,9 @@ class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 
                 @error('description')
                     <small class="text-red-500">{{ $message }}</small>
                 @enderror
+                @error('featured_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
         </div>
     </div>
 </div>
@@ -41,12 +44,33 @@ class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 
     <!-- Card Bottom Action Buttons -->
     <div class="flex items-center justify-between">
         <div>
-            <!-- Post Button -->
-            <a href="/"
-                class="-m-2 flex gap-2 text-xs items-center rounded-full px-4 py-2 font-semibold bg-gray-800 hover:bg-black text-white">
-                Back
-            </a>
-            <!-- /Post Button -->
+           <div class="flex gap-4 text-gray-600">
+                    <div>
+                        <input
+                          type="file"
+                          name="featured_image"
+                          id="featured_image"
+                          class="hidden" />
+        
+                        <label
+                          for="featured_image"
+                          class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800 cursor-pointer">
+                          <span class="sr-only">Featured Image</span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6">
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                          </svg>
+                        </label>
+                      </div>
+                </div>
         </div>
         <div>
             <!-- Post Button -->
@@ -62,6 +86,12 @@ class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 
 <!-- /Create Post Card Bottom -->
 </form>
 <!-- /Barta Create Post Card -->
-</main>
+@if ($post->hasMedia('featured_image'))
+    <div class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3"> 
+        <img src="{{ $post->getFirstMediaUrl('featured_image') }}" alt="">
+    </div>
+@endif
 
+
+</main>
 @endsection

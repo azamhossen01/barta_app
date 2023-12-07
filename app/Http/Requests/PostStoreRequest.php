@@ -23,7 +23,8 @@ class PostStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'required|min:20|max:10000'
+            'description' => 'required|min:20|max:10000',
+            'featured_image' => 'mimes:jpg,bmp,png|max:1024'
         ];
     }
 }

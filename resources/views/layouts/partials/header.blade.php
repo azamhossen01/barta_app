@@ -30,6 +30,15 @@
             <!--                >-->
             <!--              </div>-->
           </div>
+          <form action="{{ route('profile.search') }}" method="POST" class="flex items-center">
+            @csrf 
+            <input
+                    type="text"
+                    name="search"
+                    placeholder="Search..."
+                    class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+            />
+          </form>
           <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
             <!-- This Button Should Be Hidden on Mobile Devices -->
             <!--              <button-->
@@ -92,8 +101,7 @@
                   @auth
                   <img
                   class="h-8 w-8 rounded-full"
-                  src="https://avatars.githubusercontent.com/u/831997"
-                  alt="Ahmed Shamim Hasan Shaon" />
+                  src="{{ Auth::user()->getFirstMediaUrl('avatar', 'thumb') }}" />
                   @endauth
                   @guest
                       <img src="https://png.pngtree.com/element_our/20200610/ourmid/pngtree-character-default-avatar-image_2237203.jpg" class="h-8 w-8 rounded-full" alt="">

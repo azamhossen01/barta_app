@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,48 +15,54 @@ class PostController extends Controller
 
     public function store(PostStoreRequest $request)
     {
-        DB::table('posts')->insert([
+        $post = Post::create([
             'user_id' => Auth::id(),
             'uuid' => Str::uuid(),
-            'description' => $request->description
+            'description' => $request->description,
         ]);
+        if($request->hasFile('featured_image')){
+            // Attach the image to the post
+            $post->addMedia($request->featured_image)->toMediaCollection('featured_image');
+        }
+       
         return redirect()->back();
     }
 
-    public function show($uuid)
+    public function show(Post $post)
     {
-        $post = DB::table('posts')
-        ->join('users', 'posts.user_id', '=', 'users.id')
-        ->where('posts.uuid', $uuid)
-        ->select('posts.*', 'users.name as author_name', 'users.username as author_username')
-        ->first();
-        $comments = DB::table('comments')
-        ->join('users', 'comments.user_id', '=', 'users.id')
-        ->select('comments.*', 'users.name', 'users.username')
-        ->where('post_id', $post->id)->get();
-        return view('barta.posts.show', compact('post', 'comments'));
+        return view('barta.posts.show', compact('post'));
     }
 
-    public function edit($uuid)
+    public function edit(Post $post)
     {
-        $post = DB::table('posts')->where('uuid', $uuid)->first();
         return view('barta.posts.edit', compact('post'));
     }
 
-    public function update(Request $request, $uuid)
+    public function update(Request $request, Post $post)
     {
         $request->validate([
-            'description' => 'required|min:20|max:10000'
+            'description' => 'required|min:20|max:10000',
+            'featured_image' => 'mimes:png,jpg|max:1024'
         ]);
-        $post = DB::table('posts')->where('uuid', $uuid)->update([
+        $post->update([
             'description' => $request->description
         ]);
+        if($request->hasFile('featured_image')){
+            $post->clearMediaCollection('featured_image');
+            $post->addMedia($request->featured_image)->toMediaCollection('featured_image');
+        }
         return redirect()->back();
     }
 
-    public function destroy($uuid)
+    public function destroy(Post $post)
     {
-        DB::table('posts')->where('uuid', $uuid)->delete();
+        if($post){
+            $post->delete();
+            if($post->hasMedia('featured_image')){
+                $post->clearMediaCollection('featured_image');
+            }
+        }
+        
         return redirect()->back();
     }
 }

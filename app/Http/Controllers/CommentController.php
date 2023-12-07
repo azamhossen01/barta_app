@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, $uuid)
+    public function store(Request $request, Post $post)
     {
         $request->validate([
-            'comment' => 'required|min:10|max:500'
+            'comment' => 'required|max:500'
         ]);
-        $post = DB::table('posts')->where('uuid', $uuid)->first();
-        $comment = DB::table('comments')->insert([
+        Comment::create([
             'user_id' => Auth::id(),
             'post_id' => $post->id,
             'comment' => $request->comment

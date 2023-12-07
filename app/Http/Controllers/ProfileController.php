@@ -49,12 +49,33 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
-
+        $user->clearMediaCollection('avatar');
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function avatar(Request $request)
+    {
+        $user = $request->user();
+        $request->validate([
+            'avatar' => 'required|mimes:png,jpg|image|max:1024'
+        ]);
+        if($request->hasFile('avatar')){
+            if($user->hasMedia('avatar')){
+                $user->clearMediaCollection('avatar');
+            }
+            $user->addMedia($request->avatar)->toMediaCollection('avatar');
+            
+        }
+        return Redirect::route('profile.edit')->with('status', 'avatar-updated');
+    }
+
+    public function search(Request $request, $search)
+    {
+        return $request;
     }
 }

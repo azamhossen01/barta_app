@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -11,13 +12,12 @@ class UserController extends Controller
     public function authorProfile($username)
     {
         $username = Crypt::decrypt($username);
-        $author = DB::table('users')->where('username', $username)->first();
-        $posts = DB::table('posts')
-        ->join('users', 'posts.user_id', '=', 'users.id')
-        ->select('posts.*', 'users.name', 'users.username')
-        ->where('user_id', $author->id)
-        ->paginate(10);
-        $comments = DB::table('comments')->where('user_id', $author->id)->get();
-        return view('barta.posts.author', compact('author', 'posts', 'comments'));
+        // $user = User::with('posts')->where('username', $username)->first();
+        $user = User::with([
+            'posts' => function ($query) {
+                $query->withCount('comments');
+            },
+        ])->where('username', $username)->first();
+        return view('barta.posts.author', compact('user'));
     }
 }
