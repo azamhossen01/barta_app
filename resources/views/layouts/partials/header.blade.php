@@ -30,7 +30,7 @@
             <!--                >-->
             <!--              </div>-->
           </div>
-          <form action="{{ route('profile.search') }}" method="POST" class="flex items-center">
+          <form action="{{ route('profile.search') }}" method="GET" class="flex items-center">
             @csrf 
             <input
                     type="text"

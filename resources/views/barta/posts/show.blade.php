@@ -87,7 +87,7 @@
                 <span class="">•</span>
                 <span>{{ $post->comments->count() }} comments</span>
                 <span class="">•</span>
-                <span>450 views</span>
+                <span>{{ $post->view_count }} views</span>
             </div>
 
             <hr class="my-6" />

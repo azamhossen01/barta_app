@@ -30,6 +30,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        $post->increment('view_count');
         return view('barta.posts.show', compact('post'));
     }
 

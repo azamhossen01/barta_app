@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -74,8 +76,17 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'avatar-updated');
     }
 
-    public function search(Request $request, $search)
+    public function search(Request $request)
     {
-        return $request;
+        $users = User::query()
+            ->when(
+            $request->search,
+            function(Builder $builder) use ($request){
+                $builder->where('name', 'like', "%{$request->search}%")
+                    ->orWhere('username', 'like' , "%{$request->search}%")
+                    ->orWhere('email' , 'like', "%{$request->search}%");
+            })
+            ->simplePaginate(2);
+        return view('barta.search.profiles', compact('users'));
     }
 }
