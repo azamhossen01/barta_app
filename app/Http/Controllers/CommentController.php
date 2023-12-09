@@ -15,11 +15,13 @@ class CommentController extends Controller
         $request->validate([
             'comment' => 'required|max:500'
         ]);
+
         Comment::create([
             'user_id' => Auth::id(),
             'post_id' => $post->id,
             'comment' => $request->comment
         ]);
+        
         return redirect()->back();
     }
 }

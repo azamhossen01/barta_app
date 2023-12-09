@@ -12,12 +12,13 @@ class UserController extends Controller
     public function authorProfile($username)
     {
         $username = Crypt::decrypt($username);
-        // $user = User::with('posts')->where('username', $username)->first();
+        
         $user = User::with([
             'posts' => function ($query) {
                 $query->withCount('comments');
             },
         ])->where('username', $username)->first();
+
         return view('barta.posts.author', compact('user'));
     }
 }

@@ -87,6 +87,7 @@ class ProfileController extends Controller
                     ->orWhere('email' , 'like', "%{$request->search}%");
             })
             ->simplePaginate(2);
+            
         return view('barta.search.profiles', compact('users'));
     }
 }

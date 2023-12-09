@@ -20,8 +20,8 @@ class PostController extends Controller
             'uuid' => Str::uuid(),
             'description' => $request->description,
         ]);
+
         if($request->hasFile('featured_image')){
-            // Attach the image to the post
             $post->addMedia($request->featured_image)->toMediaCollection('featured_image');
         }
        
@@ -31,6 +31,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $post->increment('view_count');
+        
         return view('barta.posts.show', compact('post'));
     }
 
@@ -45,22 +46,29 @@ class PostController extends Controller
             'description' => 'required|min:20|max:10000',
             'featured_image' => 'mimes:png,jpg|max:1024'
         ]);
+
         $post->update([
             'description' => $request->description
         ]);
+
         if($request->hasFile('featured_image')){
             $post->clearMediaCollection('featured_image');
             $post->addMedia($request->featured_image)->toMediaCollection('featured_image');
         }
+
         return redirect()->back();
     }
 
     public function destroy(Post $post)
     {
         if($post){
+
             $post->delete();
+
             if($post->hasMedia('featured_image')){
+
                 $post->clearMediaCollection('featured_image');
+                
             }
         }
         
