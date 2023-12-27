@@ -29,6 +29,7 @@
         font-family: 'Inter', sans-serif;
       }
     </style>
+    @stack('style')
   </head>
   <body class="bg-gray-100">
     @includeIf('layouts.partials.header')
@@ -36,5 +37,7 @@
     @yield('content')
 
     @includeIf('layouts.partials.footer')
+
+    @stack('script')
   </body>
 </html>

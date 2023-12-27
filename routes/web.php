@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 
 /*
@@ -42,8 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/posts/{post:uuid}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post:uuid}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-
     Route::post('/comments/store/{post:uuid}', [CommentController::class, 'store'])->name('comments.store');
+    Route::patch('comments/update/{comment}', [CommentController::class, 'update'])->name('comments.update');
 });
 
 require __DIR__.'/auth.php';

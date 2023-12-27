@@ -173,12 +173,49 @@
                             </div>
                             <!-- /User Info -->
                         </div>
+
+                        <div class="flex flex-shrink-0 self-center" x-data="{ open: false }">
+                            <div class="relative inline-block text-left">
+                                <div>
+                                    <button @click="open = !open" type="button"
+                                        class="-m-2 flex items-center rounded-full p-2 text-gray-400 hover:text-gray-600"
+                                        id="menu-0-button">
+                                        <span class="sr-only">Open options</span>
+                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path
+                                                d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <!-- Dropdown menu -->
+                                <div x-show="open" @click.away="open = false"
+                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                    role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
+                                    tabindex="-1">
+                                    <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem" tabindex="-1" id="user-menu-item-0" onclick="editComment({{ $comment->id }})">Edit</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem" tabindex="-1" id="user-menu-item-1">Delete</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </header>
 
                 <!-- Content -->
                 <div class="py-4 text-gray-700 font-normal">
                     <p>{{ $comment->comment }}</p>
+                    <form action="{{ route("comments.update", $comment->id) }}" method="POST" class="hidden" id="comment-form-{{ $comment->id }}">
+                        @csrf
+                        @method('PATCH')
+                        <textarea name="edit_comment" class="w-full border p-2" rows="3">{{ $comment->comment }}</textarea>
+                        @error('edit_comment')
+                            <small class="text-red-500 block">{{ $message }}</small>
+                        @enderror
+                        <button type="submit" class="mt-2 bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">Update</button>
+                        <button type="button" class="mt-2 bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600" onclick="cancelDeleteComment({{ $comment->id }})">Cancel</button>
+                    </form>
                 </div>
 
                 <!-- Date Created -->
@@ -200,3 +237,19 @@
 </main>
 
 @endsection
+
+@push('script')
+    <script>
+        function editComment(comment_id)
+        {
+            let form = document.getElementById("comment-form-" + comment_id);
+            form.classList.remove("hidden");
+        }
+
+        function cancelDeleteComment(comment_id)
+        {
+            let form = document.getElementById("comment-form-" + comment_id);
+            form.classList.add("hidden");
+        }
+    </script>
+@endpush

@@ -24,4 +24,16 @@ class CommentController extends Controller
         
         return redirect()->back();
     }
+
+    public function update(Request $request, Comment $comment)
+    {
+        $request->validate([
+            'edit_comment' => 'required'
+        ]);
+        $comment->update([
+            'comment' => $request->edit_comment
+        ]);
+        
+        return redirect()->back();
+    }
 }
