@@ -88,6 +88,14 @@
                 <span>{{ $post->comments->count() }} comments</span>
                 <span class="">•</span>
                 <span>{{ $post->view_count }} views</span>
+                <span class="">•</span>
+            @if (check_post_like_status($post, "App\Notifications\LikeToPost"))
+                <span>{{ $post->notifications()->where('type', "App\Notifications\LikeToPost")->count() ?? 0 }}</span>
+                <a href="{{ route('like_post', $post->uuid) }}" class="text-blue-500">Unlike</a>
+            @else 
+                <span>{{ $post->notifications()->where('type', "App\Notifications\LikeToPost")->count() ?? 0 }}</span>
+                <a href="{{ route('like_post', $post->uuid) }}" >Like</a>
+            @endif
             </div>
 
             <hr class="my-6" />

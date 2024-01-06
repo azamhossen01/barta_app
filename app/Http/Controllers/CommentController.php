@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Comment;
+use App\Notifications\CommentToPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,14 @@ class CommentController extends Controller
             'comment' => 'required|max:500'
         ]);
 
-        Comment::create([
+        $comment = Comment::create([
             'user_id' => Auth::id(),
             'post_id' => $post->id,
             'comment' => $request->comment
         ]);
+
+        $post->user->notify(new CommentToPost($comment));
+
         
         return redirect()->back();
     }
